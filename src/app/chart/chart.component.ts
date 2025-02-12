@@ -1,28 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables);
 import { CandlestickElement, CandlestickController } from 'chartjs-chart-financial';
 Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
-
-const barData = [
-  {
-    "x": new Date("2025-02-11T20:31:00+00:00"),
-    "o": 1.03627,
-    "h": 1.03638,
-    "l": 1.03626,
-    "c": 1.03638,
-    "v": 65
-  },
-  {
-    "x": new Date("2025-02-11T20:32:00+00:00"),
-    "o": 1.03637,
-    "h": 1.03666,
-    "l": 1.03637,
-    "c": 1.0366,
-    "v": 147
-  },
-];
+import { AuthService } from '../services/auth/auth.service';
+import { BarsService } from '../services/bars/bars.service';
+import { Bars } from '../types/bars';
 
 @Component({
   selector: 'app-chart',
@@ -31,17 +15,52 @@ const barData = [
   styleUrl: './chart.component.scss'
 })
 export class ChartComponent implements OnInit {
+  barData!: Bars;
   chart: any;
 
+  constructor(
+    private authService: AuthService,
+    private barsService: BarsService) { }
+
   ngOnInit() {
-    this.chart = new Chart('MyChart', {
-      type: 'candlestick',
-      data: {
-        datasets: [{
-          label: 'CHRT - Chart.js Corporation',
-          data: barData,
-        }]
+    //get token
+    this.authService.login().subscribe({
+      next: (response) => {
+        this.authService.setToken(response.access_token);
+      },
+      error: (err) => {
+        console.error('get token failed', err);
       }
     });
+
+    //get data
+    this.barsService.getCountBack().subscribe({
+      next: (response) => {
+        this.barData = { ...response };
+        this.transformData(this.barData);
+
+        //draw chart
+        this.chart = new Chart('MyChart', {
+          type: 'candlestick',
+          data: {
+            datasets: [{
+              label: 'Historical price',
+              data: this.barData.data,
+            }]
+          }
+        });
+      },
+      error: (err) => {
+        console.error('get data failed', err);
+      }
+    });
+  }
+
+  transformData(obj: any): any {
+    obj.data.forEach((item: any) => {
+      item.x = new Date(item.t);
+      delete item.t;
+    });
+    return obj;
   }
 }

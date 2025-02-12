@@ -1,0 +1,1 @@
+export const URI = 'https://platform.fintacharts.com';
