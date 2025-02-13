@@ -41,7 +41,7 @@ export class ChartComponent implements OnInit {
         this.transformData(this.barData);
 
         //draw chart
-        this.chart = new Chart('MyChart', {
+        this.chart = new Chart('historicalChart', {
           type: 'candlestick',
           data: {
             datasets: [{
