@@ -5,9 +5,9 @@ import 'chartjs-chart-financial';
 import { CandlestickElement, CandlestickController } from 'chartjs-chart-financial';
 Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
-import { AuthService } from '../services/auth/auth.service';
-import { BarsService } from '../services/bars/bars.service';
-import { Bars } from '../types/bars';
+import { AuthService } from '../../services/auth/auth.service';
+import { BarsService } from '../../services/bars/bars.service';
+import { Bars } from '../../types/bars';
 
 @Component({
   selector: 'app-chart',
