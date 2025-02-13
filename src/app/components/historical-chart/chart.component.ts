@@ -24,7 +24,43 @@ export class ChartComponent implements OnInit {
     private barsService: BarsService) { }
 
   ngOnInit() {
-    //get token
+    this.getToken();
+    this.getData();
+  }
+
+  createChart() {
+    this.chart = new Chart('historicalChart', {
+      type: 'candlestick',
+      data: {
+        datasets: [{
+          label: 'Historical price',
+          data: this.barData.data,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'month',
+            },
+            ticks: {
+              source: 'auto',
+              stepSize: 1
+            }
+          },
+          y: {
+            ticks: {
+              stepSize: 0.001
+            }
+          }
+        }
+      }
+    });
+  }
+
+  getToken() {
     this.authService.login().subscribe({
       next: (response) => {
         this.authService.setToken(response.access_token);
@@ -33,44 +69,16 @@ export class ChartComponent implements OnInit {
         console.error('get token failed', err);
       }
     });
+  }
 
-    //get data
+  getData() {
     this.barsService.getCountBack().subscribe({
       next: (response) => {
         this.barData = { ...response };
         this.transformData(this.barData);
 
         //draw chart
-        this.chart = new Chart('historicalChart', {
-          type: 'candlestick',
-          data: {
-            datasets: [{
-              label: 'Historical price',
-              data: this.barData.data,
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              x: {
-                type: 'time',
-                time: {
-                  unit: 'month',
-
-                },
-                ticks: {
-                  source: 'auto',
-                  stepSize: 1
-                }
-              },
-              y: {
-                ticks: {
-                  stepSize: 0.001
-                }
-              }
-            }
-          }
-        });
+        this.createChart();
       },
       error: (err) => {
         console.error('get data failed', err);

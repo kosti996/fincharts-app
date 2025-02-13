@@ -24,10 +24,11 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
   constructor(private webSocketService: WebSocketService) { }
 
   ngOnInit() {
+    this.createChart();
+
     this.messageSubscription = this.webSocketService.getMessages().subscribe(
       (message) => {
-        this.messages.push(message);
-        console.log(message);
+        this.updateChart(message);
       }
     );
   }
@@ -53,7 +54,7 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
     } else if ('last' in data) {
       return data.last.timestamp;
     }
-    throw new Error('Invalid data type');
+    return '';
   }
 
   getPrice(data: wsBars): number {
@@ -64,6 +65,51 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
     } else if ('last' in data) {
       return data.last.price;
     }
-    throw new Error('Invalid data type');
+    return 0;
+  }
+
+  createChart() {
+    this.chart = new Chart('realtimeChart', {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Realtime price',
+          data:[],
+          fill: false,
+          tension: 0.1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'time'
+          },
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  }
+
+  updateChart(data: any) {
+    let timestamp = this.getTimestamp(data);
+    let price = this.getPrice(data);
+
+    if (timestamp == '' || price == 0) {
+      return;
+    }
+
+    this.chart.data.labels.push(new Date(timestamp));
+    this.chart.data.datasets[0].data.push(price);
+
+    if (this.chart.data.labels.length > 500) {
+      this.chart.data.labels.shift();
+      this.chart.data.datasets[0].data.shift();
+    }
+
+    this.chart.update();
   }
 }
