@@ -1,9 +1,4 @@
-<div>
-    <button (click)="closeConnection()">Close connection</button>
-
-    <button (click)="sendMessage()">Send Message</button>
-    <div *ngFor="let message of messages">
-        {{ message | json }}
-    </div>
-
+<div class="container">
+    <button class="sendBtn" (click)="sendMessage()">Subscribe</button>
+    <button class="closeBtn" (click)="closeConnection()">Unsubscribe</button>
 </div>

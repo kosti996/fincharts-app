@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
-import { webSocketMessage, webSocketURL } from './constants';
+import { webSocketMessage, webSocketURL } from '../../constants';
+import { wsBarsAsk, wsBarsBid, wsBarsLast } from '../../types/wsBars';
 
 @Injectable({
   providedIn: 'root'
