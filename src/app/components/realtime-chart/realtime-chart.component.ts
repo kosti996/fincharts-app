@@ -9,6 +9,7 @@ import { CandlestickElement, CandlestickController } from 'chartjs-chart-financi
 Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
 import { wsBars } from '../../types/wsBars';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-realtime-chart',
@@ -21,16 +22,26 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
   chart: any;
   private messageSubscription!: Subscription;
 
-  constructor(private webSocketService: WebSocketService) { }
+  constructor(private webSocketService: WebSocketService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
-    this.createChart();
+    setTimeout(() => {
+      this.createChart();
+      this.connect()
+    }, 1000);
+  }
 
-    this.messageSubscription = this.webSocketService.getMessages().subscribe(
-      (message) => {
+  connect() {
+    this.webSocketService.connect(this.authService.getToken() || '');
+
+    this.messageSubscription = this.webSocketService.getMessages().subscribe({
+      next: (message) => {
         this.updateChart(message);
-      }
-    );
+      },
+      error: error => console.log(error)
+    });
   }
 
   sendMessage() {
@@ -75,7 +86,7 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
         labels: [],
         datasets: [{
           label: 'Realtime price',
-          data:[],
+          data: [],
           fill: false,
           tension: 0.1
         }]

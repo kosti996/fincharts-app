@@ -7,11 +7,10 @@ import { webSocketMessage, webSocketURL } from '../../constants';
   providedIn: 'root'
 })
 export class WebSocketService {
-  private socket$: WebSocketSubject<any>;
-  private wsURL = `${webSocketURL}?token=${localStorage.getItem('access_token')}`;
+  private socket$!: WebSocketSubject<any>;
 
-  constructor() {
-     this.socket$ = webSocket(this.wsURL);
+   connect(token: string) {
+    this.socket$ = webSocket(`${webSocketURL}?token=${token}`);
    }
  
    sendMessage() {
