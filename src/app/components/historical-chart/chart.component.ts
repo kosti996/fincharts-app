@@ -24,8 +24,8 @@ export class ChartComponent implements OnInit {
     private barsService: BarsService) { }
 
   ngOnInit() {
-    this.getToken();
-    this.getData();
+    this.login();
+    setTimeout(() => this.getData(), 1000);
   }
 
   createChart() {
@@ -60,7 +60,7 @@ export class ChartComponent implements OnInit {
     });
   }
 
-  getToken() {
+  login() {
     this.authService.login().subscribe({
       next: (response) => {
         this.authService.setToken(response.access_token);
