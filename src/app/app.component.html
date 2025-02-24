@@ -1,8 +1,9 @@
 <h1>FintaCharts App</h1>
-<nav>
-  <ul>
-    <li><a routerLink="/historical-chart" routerLinkActive="active" ariaCurrentWhenActive="page">Historical Chart Component</a></li>
-    <li><a routerLink="/realtime-chart" routerLinkActive="active" ariaCurrentWhenActive="page">Realtime Chart Component</a></li>
-  </ul>
-</nav>
+<div class="menu">
+<button mat-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/historical-chart" routerLinkActive="active" ariaCurrentWhenActive="page">Historical Chart Component</button>
+        <button mat-menu-item routerLink="/realtime-chart" routerLinkActive="active" ariaCurrentWhenActive="page">Realtime Chart Component</button>
+    </mat-menu>
+</div>
 <router-outlet />  
