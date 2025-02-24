@@ -10,10 +10,13 @@ Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
 import { wsBars } from '../../types/wsBars';
 import { AuthService } from '../../services/auth/auth.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-realtime-chart',
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatDividerModule, MatIconModule],
   templateUrl: './realtime-chart.component.html',
   styleUrl: './realtime-chart.component.scss'
 })

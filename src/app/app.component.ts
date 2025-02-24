@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { ChartComponent } from "./components/historical-chart/chart.component";
-import { RealtimeChartComponent } from "./components/realtime-chart/realtime-chart.component";
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [ChartComponent, RealtimeChartComponent]
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+  ]
 })
 export class AppComponent {
   title = 'fincharts-app';
-
 }

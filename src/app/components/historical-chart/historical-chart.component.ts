@@ -10,12 +10,12 @@ import { BarsService } from '../../services/bars/bars.service';
 import { Bars } from '../../types/bars';
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-historical-chart',
   imports: [],
-  templateUrl: './chart.component.html',
-  styleUrl: './chart.component.scss'
+  templateUrl: './historical-chart.component.html',
+  styleUrl: './historical-chart.component.scss'
 })
-export class ChartComponent implements OnInit {
+export class HistoricalChartComponent implements OnInit {
   barData!: Bars;
   chart: any;
 
