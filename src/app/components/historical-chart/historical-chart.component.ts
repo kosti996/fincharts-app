@@ -5,7 +5,6 @@ import 'chartjs-chart-financial';
 import { CandlestickElement, CandlestickController } from 'chartjs-chart-financial';
 Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
-import { AuthService } from '../../services/auth/auth.service';
 import { BarsService } from '../../services/bars/bars.service';
 import { Bars } from '../../types/bars';
 
@@ -19,13 +18,10 @@ export class HistoricalChartComponent implements OnInit {
   barData!: Bars;
   chart: any;
 
-  constructor(
-    private authService: AuthService,
-    private barsService: BarsService) { }
+  constructor(private barsService: BarsService) { }
 
   ngOnInit() {
-    this.login();
-    setTimeout(() => this.getData(), 1000);
+    this.getData();
   }
 
   createChart() {
@@ -56,17 +52,6 @@ export class HistoricalChartComponent implements OnInit {
             }
           }
         }
-      }
-    });
-  }
-
-  login() {
-    this.authService.login().subscribe({
-      next: (response) => {
-        this.authService.setToken(response.access_token);
-      },
-      error: (err) => {
-        console.error('get token failed', err);
       }
     });
   }

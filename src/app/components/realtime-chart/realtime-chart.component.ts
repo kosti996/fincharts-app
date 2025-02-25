@@ -10,9 +10,9 @@ Chart.register(CandlestickElement, CandlestickController);
 import 'chartjs-adapter-moment';
 import { wsBars } from '../../types/wsBars';
 import { AuthService } from '../../services/auth/auth.service';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-realtime-chart',
@@ -25,15 +25,11 @@ export class RealtimeChartComponent implements OnInit, OnDestroy {
   chart: any;
   private messageSubscription!: Subscription;
 
-  constructor(private webSocketService: WebSocketService,
-    private authService: AuthService
-  ) { }
+  constructor(private webSocketService: WebSocketService, private authService: AuthService) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.createChart();
-      this.connect()
-    }, 1000);
+    this.createChart();
+    this.connect()
   }
 
   connect() {

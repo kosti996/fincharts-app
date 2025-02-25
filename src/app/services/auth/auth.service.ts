@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(): Observable<Token> {
+  login(username: string, password: string): Observable<Token> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
@@ -19,8 +19,8 @@ export class AuthService {
     const body = new HttpParams()
       .set('grant_type', 'password')
       .set('client_id', 'app-cli')
-      .set('username', 'r_test@fintatech.com')
-      .set('password', 'kisfiz-vUnvy9-sopnyv');
+      .set('username', username)
+      .set('password', password);
 
     return this.http.post<Token>('/api/identity/realms/fintatech/protocol/openid-connect/token', body.toString(), { headers: headers });
   }
