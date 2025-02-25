@@ -1,13 +1,16 @@
-<div>
+<div class="container">
   <h2>Login</h2>
-  <form (ngSubmit)="onSubmit()">
-    <label for="username">Username:</label>
-    <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="r_test@fintatech.com" required>
+  <form (ngSubmit)="onSubmit()" class="formField">
+    <mat-form-field>
+      <mat-label for="username">Username:</mat-label>
+      <input matInput type="text" id="username" [(ngModel)]="username" name="username" placeholder="r_test@fintatech.com" required>
+    </mat-form-field>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="kisfiz-vUnvy9-sopnyv"
-      required>
+    <mat-form-field>
+      <mat-label for="password">Password:</mat-label>
+      <input matInput type="password" id="password" [(ngModel)]="password" name="password" placeholder="kisfiz-vUnvy9-sopnyv" required>
+    </mat-form-field>
 
-    <button type="submit">Login</button>
+    <button mat-flat-button type="submit">Login</button>
   </form>
 </div>
